@@ -1,26 +1,27 @@
 import time
-import string
-import random
 from playsound import playsound
 import threading
+import base64
 
-timeDelaySec = 600  
-haveMessage = True  
+timeDelaySec = 600
+haveMessage = True
 ampSound = "backgroundnoise/amp.wav"
+message_recive = input("What do you want to send: ")
+message_convert = base64.b64encode(bytes(message_recive, 'utf-8'))
+message1 = str(message_convert).replace("'", "").replace("=", "").strip()
+message = message1[1:]
 
 while haveMessage == True:
     playsound('Beep.wav')
     t = threading.Thread(target=playsound, args=(ampSound,))
     t.start()
-    message = ('your message goes here without spaces or specail characters')
-    t = time.localtime()  
+    t = time.localtime()
     currentTime = time.strftime("%H:%M:%S", t)
     print("last message was at: " + currentTime)
     print("message was: " + message)
     messageList = list(message)
     for listChar in messageList:
         soundChar = "numberstation/" + listChar + ".wav"
-        # print("Output: " + soundChar)
-        playsound(soundChar)  
+        playsound(soundChar)
     playsound('Beep.wav')
     time.sleep(timeDelaySec)
